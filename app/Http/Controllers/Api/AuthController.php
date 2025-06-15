@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Http\Resources\Api\UserResource;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -28,7 +29,7 @@ class AuthController extends Controller
             'message' => __('auth.success'),
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user,
+            'user' => new UserResource($user),
         ], 200);
     }
 
