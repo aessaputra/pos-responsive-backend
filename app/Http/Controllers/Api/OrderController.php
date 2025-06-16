@@ -29,7 +29,6 @@ class OrderController extends Controller
             return (new OrderResource($order))
                 ->response()
                 ->setStatusCode(Response::HTTP_CREATED);
-
         } catch (\InvalidArgumentException $e) {
             return response()->json([
                 'message' => 'Failed to create order.',
