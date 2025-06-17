@@ -9,8 +9,11 @@ use Illuminate\Support\Carbon;
 class SalesReport extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-table-cells';
+
+    protected static ?int $navigationSort = 10;
+
     protected static string $view = 'filament.pages.sales-report';
-    protected static ?string $title = 'Laporan Penjualan Rinci';
+    protected static ?string $title = 'Laporan Penjualan';
 
     public string $period = 'daily';
     public ?array $reportData = null;

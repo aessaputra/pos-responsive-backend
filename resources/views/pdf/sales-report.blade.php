@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Penjualan</title>
+    <title>Laporan Penjualan Harian</title>
     <style>
         body {
             font-family: 'Helvetica', 'Arial', sans-serif;
             color: #333;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .container {
@@ -19,49 +19,31 @@
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 22px;
         }
 
         .header p {
             margin: 5px 0;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .content {
             margin-bottom: 30px;
         }
 
-        .stats {
-            display: table;
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .stat-item {
-            display: table-cell;
-            width: 33.33%;
-            text-align: center;
-            border: 1px solid #ddd;
-            padding: 10px;
-        }
-
-        .stat-item h3 {
-            margin: 0 0 5px 0;
-            font-size: 14px;
-            font-weight: normal;
-            color: #666;
-        }
-
-        .stat-item p {
-            margin: 0;
-            font-size: 18px;
+        .section-title {
+            font-size: 16px;
             font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
         }
 
         table {
@@ -78,7 +60,7 @@
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #f7f7f7;
             font-weight: bold;
         }
 
@@ -98,62 +80,64 @@
             font-size: 10px;
             color: #888;
         }
+
+        tfoot {
+            font-weight: bold;
+            background-color: #f7f7f7;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h1>Laporan Penjualan</h1>
-            <p>Periode: {{ $periodTitle }} ({{ $startDate }} - {{ $endDate }})</p>
-            <p>Dicetak pada: {{ now()->format('d/m/Y H:i:s') }}</p>
+            <h1>Laporan Penjualan Harian</h1>
+            <p>Periode: {{ $startDate }}</p>
         </div>
 
         <div class="content">
-            <h3>Ringkasan Statistik</h3>
-            <div class="stats">
-                <div class="stat-item">
-                    <h3>Total Pendapatan</h3>
-                    <p>Rp {{ number_format($reportData['stats']['total_revenue'], 0, ',', '.') }}</p>
-                </div>
-                <div class="stat-item">
-                    <h3>Total Transaksi</h3>
-                    <p>{{ number_format($reportData['stats']['total_transactions']) }}</p>
-                </div>
-                <div class="stat-item">
-                    <h3>Item Terjual</h3>
-                    <p>{{ number_format($reportData['stats']['total_items_sold']) }}</p>
-                </div>
-            </div>
-
-            <h3>Rincian Produk Terlaris</h3>
+            <div class="section-title">Rincian Penjualan</div>
             <table>
                 <thead>
                     <tr>
-                        <th>Nama Produk</th>
-                        <th class="text-center">Jumlah Terjual</th>
-                        <th class="text-right">Total Omzet</th>
+                        <th class="text-center" style="width: 5%;">No.</th>
+                        <th style="width: 50%;">Nama Item</th>
+                        <th class="text-center" style="width: 20%;">Jumlah / Qty</th>
+                        <th class="text-right" style="width: 25%;">Total Omzet</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($reportData['top_selling_items'] as $item)
+                    @forelse ($reportData['items'] as $index => $item)
                         <tr>
+                            <td class="text-center">{{ $index + 1 }}</td>
                             <td>{{ $item['product_name'] }}</td>
-                            <td class="text-center">{{ $item['total_quantity_sold'] }}</td>
+                            <td class="text-center">{{ $item['total_quantity'] }}</td>
                             <td class="text-right">Rp {{ number_format($item['total_revenue'], 0, ',', '.') }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center">Tidak ada data penjualan untuk periode ini.</td>
+                            <td colspan="4" class="text-center">Tidak ada data penjualan untuk periode ini.</td>
                         </tr>
                     @endforelse
                 </tbody>
+                @if (!empty($reportData['items']))
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-right"><strong>Total Keseluruhan</strong></td>
+                            <td class="text-center">
+                                <strong>{{ number_format($reportData['totals']['total_quantity']) }}</strong>
+                            </td>
+                            <td class="text-right"><strong>Rp
+                                    {{ number_format($reportData['totals']['grand_total'], 0, ',', '.') }}</strong></td>
+                        </tr>
+                    </tfoot>
+                @endif
             </table>
         </div>
     </div>
 
     <div class="footer">
-        {{ config('app.name', 'Laravel') }}
+        Laporan ini dibuat secara otomatis oleh sistem pada {{ now()->format('d/m/Y H:i:s') }}
     </div>
 </body>
 

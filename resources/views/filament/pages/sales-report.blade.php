@@ -17,7 +17,7 @@
         <div wire:loading.class.delay="opacity-50" wire:target="period">
             <x-filament::section>
                 <x-slot name="heading">
-                    Laporan Penjualan Rinci - {{ $periodTitle }}
+                    Laporan Penjualan - {{ $periodTitle }}
                 </x-slot>
 
                 <div class="fi-ta">
@@ -33,10 +33,10 @@
                                     Nama Item</th>
                                 <th
                                     class="fi-ta-header-cell px-6 py-3 text-center font-semibold text-gray-900 dark:text-white">
-                                    Jumlah / Qty</th>
+                                    Jumlah</th>
                                 <th
                                     class="fi-ta-header-cell px-6 py-3 text-right font-semibold text-gray-900 dark:text-white">
-                                    Total Omzet</th>
+                                    Total</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
