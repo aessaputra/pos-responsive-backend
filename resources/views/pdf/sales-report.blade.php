@@ -102,8 +102,8 @@
                     <tr>
                         <th class="text-center" style="width: 5%;">No.</th>
                         <th style="width: 50%;">Nama Item</th>
-                        <th class="text-center" style="width: 20%;">Jumlah / Qty</th>
-                        <th class="text-right" style="width: 25%;">Total Omzet</th>
+                        <th class="text-center" style="width: 20%;">Jumlah</th>
+                        <th class="text-right" style="width: 25%;">Total</th>
                     </tr>
                 </thead>
                 <tbody>
